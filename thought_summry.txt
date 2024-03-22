@@ -1,0 +1,206 @@
+#1  import sys  为了使用exit()函数将游戏结束
+    import pygame 将pygame 模块导入
+
+#2  创建主体游戏资源大类Alien Invasion
+    用init构造函数（要self对象）让类创建起对象时对象能有自己的属性
+    构造函数中，pygame.init()用来激活pygame类
+
+#3  用pygame.display模块的函数set_mode()（接受一个元组表示创建屏幕的大小）创建一个屏幕对象（Surface类）并赋给Alien Invasion类的属性self.screen
+    类Alien Invasion于是有了self.screen属性（一个屏幕对象）
+    用pygame.display模块中的set caption（）函数（接受一个字符串）为当前窗口设置标题
+
+#4 为Alien Invasion类创建第一个方法run game（要self对象），主体是个while死循环一直刷新游戏各种操作
+
+#5 把监听鼠标键盘的部分打包在AlienInvasion类的方法中（写成这个类的一个方法（_check_event）），那么只要在这里self._check_event()调用就行
+   
+#6  写出（_check_event函数（要self对象）
+    调用pygame.event模块的get()函数监听事件并返回事件列表，for循环拿每个event看一下，如果event.type是pygame中的QUIT事件（宏），调用sys模块中的exit（）函数退出
+
+#7 同理，把更新屏幕的事打包进_upgrade_screen函数，在run game 里的while 中只需self.调用它就好了
+
+#8 写出_update_screen函数（要self对象）
+   调用pygame.display模块中的flip（）函数抹去旧屏幕的一切，创建新屏幕
+
+#9 在alieninvasion.py创建类的后面（类定义之外），判断是否此文件在当主文件运行。如果是，创建一个名叫ai,身为AlienInvasion类的对象（拥有自己在类中定义的属性，可以调用类的方法）
+   让这个对象点运行run game()方法开始游戏
+
+#10 为Alien Invasion类创建属性self.clock ,用pygame.time模块的Clock类（注意是类）创建一个钟对象赋给self.clock
+
+#11 self.clock这个Clock类型的对象就可以用Clock类中的tick函数（接收希望的帧率）会控制每次循环暂停时间，这个功能应放在run game 函数的while中最低下
+
+#12 把所有的游戏settings 放到setting.py中，如屏幕长宽和屏幕颜色，创建setting类，def init(self)中各个self创建使其成为setting类的属性
+
+#13 在主程序里import settings(要使用setting类)，在AlienInvasion类的init函数中用Setting类创建一个self.settings对象作为AlienInvasion类的一个属性
+
+#14 所以当初创建屏幕那步的参数改成self.settings这个对象在Settings类中定义的属性
+    给屏幕填充颜色的功能放在run game 函数中_update_screen 函数中,对self.screen 这个Surface类的对象调用fill()函数，所接受的函数参数来自对象
+    self.setting所属Setting类定义的属性bg_color
+
+#15 创建ship.py,Ship类在这里定义，注意要import pygame
+
+#16 在给Ship类init时，参数要self 和ai_game这个AlienInvaSion对象，这样Ship类容许aigame 的出现和他的一切操作了
+
+#17 将ai_game里的属性screen(是个Surface 类的对象)赋给Ship类里的属性self.screen(至此他也是个Surface类对象了)
+
+#18 用ai_game。screen这个对象（Surface类）中的函数get_rect()返回一个screen的rect对象赋给self.screen_rect
+
+#19 使用pygame.image模块里的load函数（接受bmp格式图片的路径‘image为当下文件夹的文件夹，/进去后找ship.bmp的文件））
+    返回一个Surface类的对象交给self.image
+
+#20 用self.image这个Surface类的对象调用Surface的方法get_rect()，返回一个rect类的对象交给self.rect(至此他也是个rect对象了)
+
+#21 把self.screen_rect这个rect类的对象在rect类中有的midbotton数据赋给self.rect这个rect对象的midbottom,于是self。rect这个对象就在屏幕中间底部对齐了
+
+#22 定义Ship类的一个函数（接受self）,主体是调用self.screen这个Surface类对象的blit函数（接受self.image和self。rect两个Surface对象）
+    把self。image这个对象绘制到self.rect那里去
+
+#23  import ship 文件里的Ship类  ，在init函数里创建一个Ship 类的对象赋给self.ship
+
+#24 在_update_screen函数里去调用self.ship这个Ship类的对象定义在Ship类里的函数blitme去让self.ship这个Ship类的对象拥有的image属性（是个Surface类的对象）
+    追上他rect(也是个Surface类对象)的脚步（这步应该放在屏幕fill之后，flip之前）
+
+#25 在监听事件for一遍看要不要exit之外，如果用户event.type 是pygame中定义的宏KOYDOWN,如果是K_Right,则self.ship这个Ship类的对象他的属性rect对象（RECT类）的x要+= 1
+
+#26 在Ship类里创建self.moving_right和self.moving_left两个初始化为FALSE的属性，这样，我们可以让上一步只改标志，然后在ship类里写一个移动函数，
+    函数中检查标签并负责移动，rungame里的while中调用即可
+
+#27 写出移动函数，if self.moving_right为TRUE，self.rect.x += 1;(移动rect就行，blit函数会让self.image跟上self.rect)
+
+#28 同理，写出如是KEYUP事件且如是K_RIGHT就会把对应的标签弄成FALSE
+
+#29 把26的最后一句话落实，要调用self.ship 这个Ship类的对象在Ship类里定义的update方法
+
+#30 给飞船设置速度，init在self.setting（Setting类中），把aigame对象的属性setting(是个Setting类的对象)赋给self.settings
+
+#31 给Ship类创建一个self.x属性，数值是其self.rect(Rect类对象的x值强转的float),所以飞船的uodate函数左边换成self.x,右边操作数变成了self.settings这个对象在Settings类中定义的属性ship_speed
+    
+#32 根据self.x去更新self.rect.x
+
+#33 飞船能动也是有限制的，除了标志是TRUE，self.rect这个rect类对象的right要小于self.screen_rect这个rect类的对象的right
+    左边的话就是大于零就行了
+
+#34 把keyup,keydown的功能重构进函数里（接受self和event）
+
+#35 多了一个按q键退出游戏的方法
+
+#36 settings中在init里给子弹来一些参数
+
+#37 在bullet.py中创建类Bullet，import pygame ,import pygame.sprite模块里的Sprite类
+    Bullet继承了Sprite类（class后要括号包含，init后第一项为super().init()），且在init中要self和aigame,这样Bullet里容许aigame 出现容许他的相关操作
+
+#38 把aigame 的 screen对象赋给self.screen,aigame 的setting对象赋给self。setting。把self.settings在Setting类里定义的Bulletcolor 用来建立self.color
+
+#39 用pygame中的Rect类（要左上坐标右下坐标共四个数）创建一个Rect类的对象赋给self.rect,
+
+#40 用ai_game.ship,rect这个Rect类的对象的midtop数值给self.rect.midtop,子弹从最开始的左上角到了飞船前端发射的地方
+
+#41 给子弹创建self,y属性，数值为float(self.rect.y).给子弹写update 函数（self），更新self.y,并让self.rect.y 跟上
+
+#42 给子弹写绘制函数（self），内容是调用pygame.draw模块里的rect函数，接受self.screen,self.color,self.rect,把矩形绘制出来
+
+#43 把bullet import 进来
+
+#44 在init中调用pygame.sprite模块里的Group类创建一个对象返回给self.bullets(仍有其单元bullet的属性，只不过可以群体调动)
+
+#45 bullet类对象组成的bullets对象（Group）调用Bullet类的update函数
+
+#46 监听事件时对SPACE建（仅KEYDOWN）监听，调用即将编写的_fire_bullet函数
+
+#47 创建一个子弹对象，用self.bullets(Group类)的 add 函数把新子弹加入group
+
+#48 在 _upgrade_screen 中，for一下bullets里的bullet（用Group类的sprite函数产生供for循环的列表）,调用draw_bullet函数（子弹和飞船在每一帧里都要重绘）
+
+#49 for 遍历bullets的一个副本（好边遍历边删除），如果bullet.rect.bottom出屏幕，调用Group函数里的remove()函数将其删除
+
+#50 限制子弹的数量
+
+#51 仿照bullet 创建alien.py,继承Sprite类，引入self.screen. self.image,
+    得到self.rect对象
+
+#52 给外星人初始位置，引入self.x(float(self.rect.x))
+
+#53 引入alien.py
+
+#54 创建一个aliens的Group类型的对象，每次update_screen时也应该重绘aliens(这里特意和bullets用了两种不同的方法)
+
+#55 在init阶段就要执行将要写在_create_fleet 里的代码
+
+#56 创建外星人，记录用alien.rect.size来确定间距
+
+#57 双重循环创建外星人，内循环一次后x 要回来吗，y要递增
+
+#58 在指定位置创建外星人，并把外星人加到Group中
+
+#59 给Alien类写移动函数，动self.x,让rect.x追随
+
+#60 每次while 的时候都调用将要写的_update_aliens(self)函数
+
+#61 _update_aliens 的内容就是让Group类的那个对象self，aliens去调用Alien类的update函数
+
+#62 设置外星舰队下降的速度以及移动的方向
+
+#63 给Alien类写检测边缘的函数，self.screen.rect弄出来，并且在Alien的Update函数中考虑进方向
+
+#64 写出_check_fleet_edge函数，写出_change_fleet_direction函数（包含下降和转向），前者调用alien.check_edge时如果是真，调用后者，而
+    前者则被放到_update_alien里去
+
+
+#65 在update bullet 函数里调用要写的check bullet alien collision,把这个函数写出来
+    函数用pygame.sprite模块的groupcollide函数检测两个group的碰撞返回字典，赋给collisions
+
+#66 在check alien bullet collison里检测如果没有外星人了，对bullets进行empty()函数，
+    重新调用create fleet 函数
+
+#67 写GameStats类，里面有函数（但是是init函数调用的）把飞船数设置为self.ship_limit(在setting里面赶紧写上)，回到主函数import他和time模块里的sleep()函数
+
+#68 用Gamestats类创建一个对象写在init函数里
+
+#69 写_ship_hit函数，外星人和bullets组全empty()掉，飞船数-1，调用创建fleet 函数，调用现写的ship.center函数，sleep一会（因为其用在update alien里）
+     要在update screen 之前停一会。于是在update alien函数里检测碰撞（用pygame.sprite模块里的spritecollideany检测group和sprite的碰撞，没有则返回NOne
+     调用ship hit 函数
+
+#70 看有没有外星人到底写check alien bottom函数，如果碰撞了，调用ship_hit;而前者又为update alien所调用
+
+#71 给游戏制作开始标签，ship hit的功能在有飞船才调用，没有飞船就得把flag标成FALSE。
+
+#72 只有标签为TRUE时，while 里的部分代码才让他去跑
+
+#73创建button类，init时要（self，aigame,msg）最后一个参数是创建对象时给他传进去的，self.screen,self.screen_rect准备好，设置按钮大小颜色和文字颜色
+   self.font则是调用pygame.font.Sysfont()去渲染字体大小
+
+#74 画一个矩形当成按钮，返回rect类的对象赋给self.rect,把它和screen_rect的center对齐
+
+#75 调用即将写的perp函数，该函数中,self.font调用render()函数把文字渲染成图像，返回给self.msg_image,把他的rect弄出来，让他的rect.center和self.rect.center对齐
+
+#76 写一个draw button 的函数，self.screen.fill(颜色，self.rect)画出button,用blit函数在指定位置绘制出文字
+
+#77 创建play按钮（Button类）在init函数里（记得传进去self和“Play”），在Update_screen里，如果游戏flag为FALSE就调用draw button函数
+
+#78 检测鼠标点击事件，用pygame.mouse模块里的get_mouse 函数获取鼠标位置
+    调用即将要写的_check_play_button函数（把mouse pose）传进去
+
+#79 写这个函数（self,mouse pose）用rect类的函数collidepoint传进去mouse pose，判断该不该改self.game_active
+    要重置游戏信息，清空子弹和外星人的Group,然后create_fleet(),重置飞船位置
+
+#80 让按钮只在游戏未开始时起到作用
+
+#81 游戏期间隐藏掉光标用pygame.mouse模块里的set_visible(False)在游戏中隐去
+
+#82 游戏三次都完了后重新显示鼠标
+
+#83 给游戏设置加速，写初始化参数函数  每次check play button时有用
+
+#84 给游戏写加速函数
+
+#85 可以在每一次后加速了
+
+#86 设置得分，写分数渲染函数，得到self.score_image 之后获取其rect,把其rect 的参数对齐到屏幕合适的位置
+
+#87 写show_score 函数，用blit显示出来，每次update screen 时候调一下show_score函数
+
+#88 给设置外星人得分参数 
+
+#89 每次碰撞，都要按列表加分，并立即prep分数加以刷新
+
+#90
+
