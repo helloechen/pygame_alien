@@ -32,11 +32,11 @@ class Settings:
         
         self.fleet_direction = 1
         
-    def increase_speed(self):  #84
+    def increase_speed(self):  #
         self.ship_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale3
         self.alien_speed *= self.speedup_scale2
         self.alien_points = int(self.alien_points*self.score_scale)
         
-#我又给我的代码增加了一个注释
+#我又给我的代码增加一个注释
         
