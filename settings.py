@@ -38,3 +38,5 @@ class Settings:
         self.alien_speed *= self.speedup_scale2
         self.alien_points = int(self.alien_points*self.score_scale)
         
+#我又给我的代码增加了一个注释
+        
